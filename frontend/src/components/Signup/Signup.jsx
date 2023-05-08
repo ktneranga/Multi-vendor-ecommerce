@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { server } from "../../server";
+
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [fullName, setFullName] = useState("");
@@ -11,8 +16,35 @@ const Signup = () => {
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
 
-  const handleSubmit = () => {
-    console.log("test");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    const formData = new FormData();
+    formData.append("file", avatar);
+    formData.append("name", fullName);
+    formData.append("password", password);
+    formData.append("email", email);
+
+    try {
+      const res = await axios.post(
+        `${server}/user/create-user`,
+        formData,
+        config
+      );
+      toast.success(res.data.message);
+      setFullName("");
+      setEmail("");
+      setPassword("");
+      setAvatar("");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   const handleFileInputChange = (e) => {
@@ -22,6 +54,7 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <ToastContainer />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Register as a new user
@@ -29,7 +62,11 @@ const Signup = () => {
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6">
+          <form
+            className="space-y-6"
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+          >
             <div>
               <label
                 htmlFor="full-name"

@@ -22,7 +22,7 @@ module.exports = (err, req, res, next) => {
     err = new ErrorHandler(message, 400);
   }
 
-  //jwt expired
+  // jwt expired
   if (err.name === "TokenExpiredError") {
     const message = `Your URL is expired, please try again later`;
     err = new ErrorHandler(message, 400);
