@@ -13,6 +13,7 @@ const {
   sendToken,
 } = require("../utils/jwt");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const { isAuthenticated } = require("../middleware/auth");
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   try {
@@ -129,6 +130,28 @@ router.post(
       sendToken(user, 201, res);
     } catch (error) {
       return next(new ErrorHandler(error.message));
+    }
+  })
+);
+
+//load user
+router.get(
+  "/getuser",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = req.user;
+
+      if (!user) {
+        return next(new ErrorHandler("User doesn't exist", 400));
+      }
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.messae, 500));
     }
   })
 );

@@ -11,7 +11,12 @@ app.use(cookieParser());
 //serving static files in express, uploads folder, otherwise we cannot use uploaded images
 app.use("/", express.static("uploads"));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 //config
 if (process.env.NODE_ENV !== "PRODUCTION") {
