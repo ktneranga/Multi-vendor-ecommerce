@@ -40,11 +40,13 @@ export const userSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isAuthenticated = true;
         state.user = action.payload;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
+        state.isAuthenticated = false;
         state.message = action.payload;
       });
   },

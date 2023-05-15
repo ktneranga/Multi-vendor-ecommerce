@@ -15,12 +15,16 @@ import { BiMenuAltLeft } from "react-icons/bi";
 import DropDown from "./DropDown";
 import Navbar from "./Navbar";
 import { CgProfile } from "react-icons/cg";
+import { useSelector } from "react-redux";
+import { backend_url } from "../../server";
 
 function Header({ activeHeading }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -147,9 +151,17 @@ function Header({ activeHeading }) {
                 </span>
               </div>
               <div className="relative cursor-pointer mr-[15px]">
-                <Link to="/login">
-                  <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-                </Link>
+                {isAuthenticated ? (
+                  <Link to="/profile">
+                    <div className="w-[35px] h-[35px] rounded-full overflow-hidden">
+                      <img src={`${backend_url}${user.avatar}`} />
+                    </div>
+                  </Link>
+                ) : (
+                  <Link to="/login">
+                    <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
