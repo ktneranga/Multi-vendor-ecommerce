@@ -17,12 +17,14 @@ import Navbar from "./Navbar";
 import { CgProfile } from "react-icons/cg";
 import { useSelector } from "react-redux";
 import { backend_url } from "../../server";
+import Cart from "../Cart/Cart";
 
 function Header({ activeHeading }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
 
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
@@ -145,6 +147,7 @@ function Header({ activeHeading }) {
                 <AiOutlineShoppingCart
                   size={30}
                   color="rgb(255 255 255 / 83%)"
+                  onClick={() => setOpenCart(true)}
                 />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
                   0
@@ -164,6 +167,8 @@ function Header({ activeHeading }) {
                 )}
               </div>
             </div>
+            {/* cart popup */}
+            {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
           </div>
         </div>
       </div>

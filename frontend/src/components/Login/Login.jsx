@@ -33,6 +33,7 @@ const Login = () => {
       await axios.post(`${server}/user/loin-user`, payload, config);
       toast.success("Login success!");
       navigate("/");
+      window.location.reload(true);
     } catch (error) {
       toast.error(error.response.data.message);
     }
