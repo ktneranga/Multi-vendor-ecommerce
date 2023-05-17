@@ -9,6 +9,8 @@ import {
   BestSellingsPage,
   EventsPage,
   FaqPage,
+  OrderSuccessPage,
+  ProductDetailsPage,
 } from "./Routes";
 import "./App.css";
 import axios from "axios";
@@ -41,6 +43,8 @@ const App = () => {
             <Route path="/best-selling" element={<BestSellingsPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/faq" element={<FaqPage />} />
+            <Route path="/product/:name" element={<ProductDetailsPage />} />
+            <Route path="/order/success/:id" element={<OrderSuccessPage />} />
           </Routes>
         </Router>
       )}

@@ -35,11 +35,13 @@ const Cart = ({ setOpenCart }) => {
               onClick={() => setOpenCart(false)}
             />
           </div>
+
           {/* item length */}
           <div className={`${styles.noramlFlex} p-4 mb-10`}>
             <IoBagOutline size={25} />
             <h5 className="pl-2 text-[20px] font-[500]">3 Items</h5>
           </div>
+
           {/* cart single items */}
           <div className="w-full border-t ">
             {cartData &&
@@ -91,7 +93,7 @@ const CartSingle = ({ data }) => {
             ${data.price} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] text-[#d02222] font-Roboto">
-            US${data.price * value}
+            US${totalPrice}
           </h4>
         </div>
         <div>

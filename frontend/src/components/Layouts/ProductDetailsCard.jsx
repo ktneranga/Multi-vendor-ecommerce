@@ -3,13 +3,17 @@ import { RxCross1 } from "react-icons/rx";
 import styles from "../../styles/styles";
 import { AiOutlineMessage, AiOutlineShoppingCart } from "react-icons/ai";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetailsCard = ({ open, setOpen, data }) => {
+  const naviate = useNavigate();
   let [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(false);
 
-  const handleMessageSubmit = () => {};
+  const handleMessageSubmit = () => {
+    naviate("/inbox?conversation=50vjhvchdsjbchdsjv");
+  };
 
   const decrement = (e) => {
     e.preventDefault();
@@ -122,7 +126,7 @@ const ProductDetailsCard = ({ open, setOpen, data }) => {
                 </div>
 
                 <div
-                  className={`${styles.button} mt-4 rounded-sm h-11`}
+                  className={` !bg-[#6443d1] mt-4 !rounded !h-11`}
                   onClick={handleMessageSubmit}
                 >
                   <span className="text-[#fff] flex items-center text-[15px]">
