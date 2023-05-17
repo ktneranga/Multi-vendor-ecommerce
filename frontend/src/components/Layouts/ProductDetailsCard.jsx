@@ -126,7 +126,7 @@ const ProductDetailsCard = ({ open, setOpen, data }) => {
                 </div>
 
                 <div
-                  className={` !bg-[#6443d1] mt-4 !rounded !h-11`}
+                  className={`${styles.button} mt-4 rounded-sm h-11`}
                   onClick={handleMessageSubmit}
                 >
                   <span className="text-[#fff] flex items-center text-[15px]">
