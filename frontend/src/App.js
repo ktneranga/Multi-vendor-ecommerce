@@ -11,6 +11,7 @@ import {
   FaqPage,
   OrderSuccessPage,
   ProductDetailsPage,
+  ProfilePage,
 } from "./Routes";
 import "./App.css";
 import axios from "axios";
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/product/:name" element={<ProductDetailsPage />} />
             <Route path="/order/success/:id" element={<OrderSuccessPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </Router>
       )}

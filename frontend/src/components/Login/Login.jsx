@@ -26,14 +26,15 @@ const Login = () => {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      // withCredentials: true,
+      withCredentials: true,
     };
 
     try {
-      await axios.post(`${server}/user/loin-user`, payload, config);
+      const res = await axios.post(`${server}/user/loin-user`, payload, config);
+      console.log("login res", res);
       toast.success("Login success!");
-      navigate("/");
-      window.location.reload(true);
+      // navigate("/");
+      // window.location.reload(true);
     } catch (error) {
       toast.error(error.response.data.message);
     }
