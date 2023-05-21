@@ -19,6 +19,7 @@ import { server } from "./server";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./slices/user/userSlice";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -26,9 +27,7 @@ const App = () => {
     dispatch(getUser());
   }, []);
 
-  const { isLoading } = useSelector((state) => state.user);
-
-  console.log("loading", isLoading);
+  const { isLoading, isAuthenticated } = useSelector((state) => state.user);
 
   return (
     <>
@@ -46,7 +45,14 @@ const App = () => {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/product/:name" element={<ProductDetailsPage />} />
             <Route path="/order/success/:id" element={<OrderSuccessPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoutes isAuthenticated={isAuthenticated}>
+                  <ProfilePage />
+                </ProtectedRoutes>
+              }
+            />
           </Routes>
         </Router>
       )}

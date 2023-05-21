@@ -1,6 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineLogin, AiOutlineMessage } from "react-icons/ai";
+import {
+  AiOutlineLogin,
+  AiOutlineMessage,
+  AiOutlineCreditCard,
+} from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { HiOutlineReceiptRefund, HiOutlineShoppingBag } from "react-icons/hi";
 import {
@@ -10,9 +14,25 @@ import {
 } from "react-icons/md";
 import { TbAddressBook } from "react-icons/tb";
 import { RxPerson } from "react-icons/rx";
+import { server } from "../../server";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProfileSideBar = ({ active, setActive }) => {
   const navigate = useNavigate();
+
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${server}/user/logout`, {
+        withCredentials: true,
+      });
+      toast.success(res.data.message);
+      window.location.reload();
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
   return (
     <div className="w-full bg-white shadow-sm rounded-[10px] p-4 pt-8">
       <div
@@ -94,13 +114,13 @@ const ProfileSideBar = ({ active, setActive }) => {
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(6)}
       >
-        <RiLockPasswordLine size={20} color={active === 6 ? "red" : ""} />
+        <AiOutlineCreditCard size={20} color={active === 6 ? "red" : ""} />
         <span
           className={`pl-3 ${
             active === 6 ? "text-[red]" : ""
           } 800px:block hidden`}
         >
-          Change Password
+          Payment Methods
         </span>
       </div>
 
@@ -119,7 +139,7 @@ const ProfileSideBar = ({ active, setActive }) => {
       </div>
       <div
         className="flex items-center cursor-pointer w-full mb-8"
-        onClick={() => setActive(8)}
+        onClick={() => setActive(8) || logoutHandler()}
       >
         <AiOutlineLogin size={20} color={active === 8 ? "red" : ""} />
         <span

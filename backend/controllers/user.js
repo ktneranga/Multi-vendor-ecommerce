@@ -49,8 +49,6 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
       avatar: fileUrl,
     };
 
-    console.log("user", user);
-
     const activationToken = createActivationToken(user);
 
     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
@@ -157,5 +155,23 @@ router.get(
     }
   })
 );
+
+//logout user
+router.get("/logout", isAuthenticated, (req, res) => {
+  try {
+    res
+      .status(201)
+      .cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+      })
+      .json({
+        success: true,
+        message: "Logout successful",
+      });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
 
 module.exports = router;
