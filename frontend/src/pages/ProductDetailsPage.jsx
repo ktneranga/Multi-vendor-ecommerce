@@ -16,7 +16,7 @@ const ProductDetailsPage = () => {
     const product =
       productData && productData.find((i) => i.name === productName);
     setData(product);
-  }, []);
+  }, [name]);
 
   return (
     <div>

@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { backend_url } from "../../server";
 import Cart from "../Cart/Cart";
 import WishList from "../WishList/WishList";
+import { RxCross1 } from "react-icons/rx";
 
 function Header({ activeHeading }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,6 +28,7 @@ function Header({ activeHeading }) {
   const [dropDown, setDropDown] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openWishList, setOpenWishList] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
@@ -182,6 +184,87 @@ function Header({ activeHeading }) {
           </div>
         </div>
       </div>
+
+      {/* mobile header */}
+      <div className="fixed w-full h-[70px] bg-[#ffff] z-50 top-0 left-0 shadow-sm 800px:hidden">
+        <div className="w-full h-[70px] flex items-center justify-between">
+          <div>
+            <BiMenuAltLeft
+              size={30}
+              className="absolute top-3 left-2"
+              onClick={() => setOpen(true)}
+            />
+          </div>
+          <div>
+            <Link to="/">
+              <img src={Logo} alt="logo" />
+            </Link>
+          </div>
+          <div
+            className="relative cursor-pointer mr-[15px]"
+            onClick={() => setOpenCart(true)}
+          >
+            <AiOutlineShoppingCart size={30} color="black" />
+            <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="800px:hidden">
+        <br />
+        <br />
+        <br />
+      </div>
+      {open && (
+        <div className="w-full h-full fixed top-0 left-0 bg-[#0000004b] z-50 800px:hidden">
+          <div className="fixed top-0 left-0 min-h-full w-[60%] bg-white shadow-sm">
+            <div className="flex w-full justify-between pt-5 px-3">
+              <div className="relative cursor-pointer mr-[15px]">
+                <AiOutlineHeart size={30} color="black" />
+                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  0
+                </span>
+              </div>
+              <RxCross1 size={30} onClick={() => setOpen(false)} />
+            </div>
+            <div className="flex flex-col w-full px-2.5 pt-8">
+              <input
+                type="text"
+                placeholder="Search Products..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="h-[40px] p-2 w-full border-[#3957db] border-[2px] rounded-md"
+              />
+              {searchData && searchData.length !== 0 ? (
+                <div className=" bg-[#fff] z-10 shadow w-full h-screen overflow-y-auto">
+                  {searchData &&
+                    searchData.map((i, index) => {
+                      const d = i.name;
+                      const Product_name = d.replace(/\s+/g, "-");
+                      return (
+                        <Link
+                          onClick={() => setOpen(false)}
+                          to={`/product/${Product_name}`}
+                        >
+                          <div className="flex items-center">
+                            <img
+                              src={i.image_Url[0].url}
+                              alt=""
+                              className="w-[40px] h-[40px] mr-[10px]"
+                            />
+                            <div className="w border-b pb-1 mt-1">{i.name}</div>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                </div>
+              ) : null}
+            </div>
+            <Navbar active={activeHeading} />
+          </div>
+        </div>
+      )}
     </>
   );
 }
