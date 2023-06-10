@@ -12,6 +12,7 @@ import {
   OrderSuccessPage,
   ProductDetailsPage,
   ProfilePage,
+  BecomeSellerPage,
 } from "./Routes";
 import "./App.css";
 import axios from "axios";
@@ -53,6 +54,7 @@ const App = () => {
                 </ProtectedRoutes>
               }
             />
+            <Route path="/seller-create" element={<BecomeSellerPage />} />
           </Routes>
         </Router>
       )}

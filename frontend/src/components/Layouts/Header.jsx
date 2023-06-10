@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import Logo from "../../Assests/logo.svg";
@@ -7,9 +7,7 @@ import {
   AiOutlineHeart,
   AiOutlineSearch,
   AiOutlineShoppingCart,
-  AiOutlineUser,
 } from "react-icons/ai";
-import { server } from "../../server";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { BiMenuAltLeft } from "react-icons/bi";
 import DropDown from "./DropDown";
@@ -97,7 +95,7 @@ function Header({ activeHeading }) {
             ) : null}
           </div>
           <div className={`${styles.button}`}>
-            <Link to="/seller">
+            <Link to="/seller-create">
               <h1 className="text-[#fff] flex items-center">
                 Become Seller <IoIosArrowForward className="ml-1" />
               </h1>

@@ -1,4 +1,5 @@
 const nodeMailer = require("nodemailer");
+const EmailTemplate = require("./emailTemplate/templete");
 
 const sendMail = async (options) => {
   const transporter = nodeMailer.createTransport({
@@ -15,7 +16,7 @@ const sendMail = async (options) => {
     from: process.env.SMTP_MAIL,
     to: options.email,
     subject: options.subject,
-    text: options.message,
+    html: EmailTemplate(options.activationUrl),
   };
 
   await transporter.sendMail(mailOptions);

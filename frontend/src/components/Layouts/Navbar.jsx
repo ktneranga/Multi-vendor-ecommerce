@@ -27,7 +27,7 @@ const Navbar = ({ active }) => {
           </div>
         ))}
       <div className={`${styles.button} ml-4 800px:hidden`}>
-        <Link to="/seller">
+        <Link to="/seller-create">
           <h1 className="text-[#fff] flex items-center">
             Become Seller <IoIosArrowForward className="ml-1" />
           </h1>
