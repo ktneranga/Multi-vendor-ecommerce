@@ -10,7 +10,7 @@ import { RxAvatar } from "react-icons/rx";
 const BecomeSeller = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [shopName, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState();
   const [address, setAddress] = useState("");
   const [zipCode, setZipCode] = useState();
@@ -29,16 +29,17 @@ const BecomeSeller = () => {
     const formData = new FormData();
 
     formData.append("file", avatar);
-    formData.append("name", name);
+    formData.append("shopName", shopName);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("zipCode", zipCode);
     formData.append("address", address);
     formData.append("phoneNumber", phoneNumber);
+    formData.append("userType", "seller");
 
     try {
       const res = await axios.post(
-        `${server}/shop/create-shop`,
+        `${server}/shop/create-seller`,
         formData,
         config
       );
@@ -83,7 +84,7 @@ const BecomeSeller = () => {
                   type="name"
                   name="name"
                   required
-                  value={name}
+                  value={shopName}
                   onChange={(e) => setName(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
@@ -243,7 +244,7 @@ const BecomeSeller = () => {
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Already have an account?</h4>
-              <Link to="/shop-login" className="text-blue-600 pl-2">
+              <Link to="/seller-login" className="text-blue-600 pl-2">
                 Sign in
               </Link>
             </div>

@@ -13,8 +13,6 @@ const verifyToken = (token) => {
 const sendToken = (user, statusCode, res) => {
   const token = user.getJwtToken();
 
-  console.log("token", token);
-
   //options for cookies
   const options = {
     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
@@ -30,8 +28,29 @@ const sendToken = (user, statusCode, res) => {
   });
 };
 
+const sendShopToken = (seller, statusCode, res) => {
+  const sellerToken = seller.getJwtToken();
+
+  console.log("sellerToken", sellerToken);
+
+  //options for cokkie
+  const option = {
+    expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+  };
+
+  res.status(statusCode).cookie("seller_token", sellerToken, option).json({
+    success: true,
+    seller,
+    sellerToken,
+  });
+};
+
 module.exports = {
   createActivationToken,
   verifyToken,
   sendToken,
+  sendShopToken,
 };

@@ -13,6 +13,9 @@ import {
   ProductDetailsPage,
   ProfilePage,
   BecomeSellerPage,
+  SellerActivationPage,
+  SellerLoginPage,
+  SellerPage,
 } from "./Routes";
 import "./App.css";
 import axios from "axios";
@@ -40,6 +43,10 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/sign-up" element={<SignupPage />} />
             <Route path="/activation/:token" element={<ActivationPage />} />
+            <Route
+              path="/seller-activation/:token"
+              element={<SellerActivationPage />}
+            />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/best-selling" element={<BestSellingsPage />} />
             <Route path="/events" element={<EventsPage />} />
@@ -55,6 +62,8 @@ const App = () => {
               }
             />
             <Route path="/seller-create" element={<BecomeSellerPage />} />
+            <Route path="/seller-login" element={<SellerLoginPage />} />
+            <Route path="/seller-account" element={<SellerPage />} />
           </Routes>
         </Router>
       )}

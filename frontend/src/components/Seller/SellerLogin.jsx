@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { server } from "../../server";
 import axios from "axios";
-
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { sellerLogin } from "../../slices/seller/sellerSlice";
 
-const Login = () => {
+const SellerLogin = () => {
+  const dispatch = useDispatch();
+
+  const { isAuthenticated, isLoading } = useSelector((state) => state.seller);
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,34 +22,26 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
+    const sellerData = {
       email,
       password,
     };
 
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      withCredentials: true,
-    };
+    dispatch(sellerLogin(sellerData));
+  };
 
-    try {
-      const res = await axios.post(`${server}/user/loin-user`, payload, config);
-      console.log("login res", res);
-      toast.success("Login success!");
+  useEffect(() => {
+    if (isAuthenticated) {
       navigate("/");
       window.location.reload(true);
-    } catch (error) {
-      toast.error(error.response.data.message);
     }
-  };
+  }, [isAuthenticated]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Login to your account
+          Login to Your Shop
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -137,7 +134,7 @@ const Login = () => {
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Not have any account?</h4>
-              <Link to="/seller-create" className="text-blue-600 pl-10">
+              <Link to="/sign-up" className="text-blue-600 pl-10">
                 Sign up
               </Link>
             </div>
@@ -148,4 +145,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SellerLogin;
