@@ -14,6 +14,10 @@ const {
 const sendEmail = require("../utils/sendMail");
 const { exit } = require("process");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const {
+  isAuthenticated,
+  isSellerAuthenticated,
+} = require("../middleware/auth");
 
 //create-shop - create activation token and send the email
 router.post("/create-seller", upload.single("file"), async (req, res, next) => {
@@ -149,6 +153,28 @@ router.post(
     } catch (error) {
       console.log(error);
       return next(new ErrorHandler(error.message));
+    }
+  })
+);
+
+router.get(
+  "/get-seller",
+  isSellerAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = req.user;
+
+      if (!user) {
+        return next(new ErrorHandler("User doesn't exist", 404));
+      }
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(new ErrorHandler(error.message, 500));
     }
   })
 );

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const initialState = {
   seller: null,
-  isAuthenticated: false,
+  isSellerAuthenticated: false,
   isLoading: null,
   isError: null,
   isSuccess: null,
@@ -19,10 +19,22 @@ export const sellerLogin = createAsyncThunk(
   async (seller, thunkAPI) => {
     try {
       const res = await sellerService.sellerLoginService(seller);
-      //   toast.success("Login Success");
+      toast.success("Login Success");
       return res.data.seller;
     } catch (error) {
-      //   toast.error(error.response.data.message);
+      toast.error(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const getSeller = createAsyncThunk(
+  "seller/fetch",
+  async (_, thunkAPI) => {
+    try {
+      const res = await sellerService.loadSellerService();
+      return res.data.user;
+    } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -51,14 +63,31 @@ export const sellerSlice = createSlice({
       .addCase(sellerLogin.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.isAuthenticated = true;
+        state.isSellerAuthenticated = true;
         state.seller = action.payload;
       })
       .addCase(sellerLogin.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.isAuthenticated = false;
+        state.isSellerAuthenticated = false;
         state.message = action.payload;
+      })
+      .addCase(getSeller.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getSeller.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isSellerAuthenticated = true;
+        state.message = "";
+        state.seller = action.payload;
+      })
+      .addCase(getSeller.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSellerAuthenticated = false;
+        state.message = "";
+        state.seller = null;
       });
   },
 });

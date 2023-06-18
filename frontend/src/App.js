@@ -16,57 +16,73 @@ import {
   SellerActivationPage,
   SellerLoginPage,
   SellerPage,
-} from "./Routes";
+} from "./routes/Routes";
+import { DashboardPage } from "./routes/SellerRoutes";
 import "./App.css";
 import axios from "axios";
 import { server } from "./server";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./slices/user/userSlice";
-import ProtectedRoutes from "./ProtectedRoutes";
+import { getSeller } from "./slices/seller/sellerSlice";
+import ProtectedRoutes from "./routes/ProtectedRoutes";
+import SellerProtectedRoutes from "./routes/SellerProtectedRoutes";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUser());
+    dispatch(getSeller());
   }, []);
-
-  const { isLoading, isAuthenticated } = useSelector((state) => state.user);
 
   return (
     <>
-      {isLoading ? null : (
-        <Router>
-          <ToastContainer />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/sign-up" element={<SignupPage />} />
-            <Route path="/activation/:token" element={<ActivationPage />} />
-            <Route
-              path="/seller-activation/:token"
-              element={<SellerActivationPage />}
-            />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/best-selling" element={<BestSellingsPage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/faq" element={<FaqPage />} />
-            <Route path="/product/:name" element={<ProductDetailsPage />} />
-            <Route path="/order/success/:id" element={<OrderSuccessPage />} />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoutes isAuthenticated={isAuthenticated}>
-                  <ProfilePage />
-                </ProtectedRoutes>
-              }
-            />
-            <Route path="/seller-create" element={<BecomeSellerPage />} />
-            <Route path="/seller-login" element={<SellerLoginPage />} />
-            <Route path="/seller-account" element={<SellerPage />} />
-          </Routes>
-        </Router>
-      )}
+      <Router>
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-up" element={<SignupPage />} />
+          <Route path="/activation/:token" element={<ActivationPage />} />
+          <Route
+            path="/seller-activation/:token"
+            element={<SellerActivationPage />}
+          />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/best-selling" element={<BestSellingsPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/product/:name" element={<ProductDetailsPage />} />
+          <Route path="/order/success/:id" element={<OrderSuccessPage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoutes>
+                <ProfilePage />
+              </ProtectedRoutes>
+            }
+          />
+          <Route path="/seller-create" element={<BecomeSellerPage />} />
+          <Route path="/seller-login" element={<SellerLoginPage />} />
+
+          <Route
+            path="/seller-account/:id"
+            element={
+              <SellerProtectedRoutes>
+                <SellerPage />
+              </SellerProtectedRoutes>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <SellerProtectedRoutes>
+                <DashboardPage />
+              </SellerProtectedRoutes>
+            }
+          />
+        </Routes>
+      </Router>
     </>
   );
 };

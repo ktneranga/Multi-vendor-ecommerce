@@ -18,4 +18,14 @@ const sellerLoginService = async (sellerData) => {
   return seller;
 };
 
-export default { sellerLoginService };
+const loadSellerService = async () => {
+  const config = {
+    withCredentials: true,
+  };
+
+  const seller = await axios.get(`${server}/shop/get-seller`, config);
+
+  return seller;
+};
+
+export default { sellerLoginService, loadSellerService };

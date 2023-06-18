@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
-import { server } from "../../server";
-import axios from "axios";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { sellerLogin } from "../../slices/seller/sellerSlice";
@@ -12,7 +9,9 @@ import { sellerLogin } from "../../slices/seller/sellerSlice";
 const SellerLogin = () => {
   const dispatch = useDispatch();
 
-  const { isAuthenticated, isLoading } = useSelector((state) => state.seller);
+  const { isSellerAuthenticated, isLoading } = useSelector(
+    (state) => state.seller
+  );
 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -31,11 +30,10 @@ const SellerLogin = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-      window.location.reload(true);
+    if (isSellerAuthenticated) {
+      navigate(`/dashboard`);
     }
-  }, [isAuthenticated]);
+  }, [isLoading, isSellerAuthenticated]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
